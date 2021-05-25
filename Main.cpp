@@ -12,10 +12,10 @@ Texture * text;
 Mesh * mesh;
 void Main::LoadResource(IDirect3DDevice9 * pd3dDevice)
 {
-	//LOADER->AddMesh(pd3dDevice,"Sex",L"Resource\\(0.obj");
+	LOADER->AddMesh(pd3dDevice,"Sex",L"Resource\\(0.obj");
 
 	text = LOADER->AddImage("Title","./Resource/Title.png");
-	//mesh = LOADER->AddMesh(pd3dDevice, "Sex", L"Resource\\(0.obj");
+	mesh = LOADER->AddMesh(pd3dDevice, "Sex", L"Resource\\(0.obj");
 }
 
 void Main::Init()
@@ -25,8 +25,14 @@ void Main::Init()
 
 void Main::Render()
 {
-	RENDER->Render2D(text,Vec2(0,0),Vec2(1,1),0);
-	//RENDER->Render3D(mesh,Vec3(0,0,-10),Vec3(0.1,0.1,0.1),Vec3(0,3.14,0));
+	RENDER->Render2D(text,Vec3(0,0,-50),Vec2(1,1),0);
+	RENDER->Render3D(mesh,Vec3(0,0,-10),Vec3(0.1,0.1,0.1),Vec3(0,3.14,0));
+	RENDER->Render3D(mesh, Vec3(-10, 0, -10), Vec3(0.1, 0.1, 0.1), Vec3(0, 3.14, 0));
+	RENDER->Render3D(mesh, Vec3(-20, 0, -10), Vec3(0.1, 0.1, 0.1), Vec3(0, 3.14, 0));
+	RENDER->Render3D(mesh, Vec3(-30, 0, -10), Vec3(0.1, 0.1, 0.1), Vec3(0, 3.14, 0));
+
+	RENDER->Begin();
+	RENDER->End();
 	CAMERA->CamRender();
 }
 

@@ -55,7 +55,7 @@ Texture * LoadManager::AddImage(string key, const string path)
 	}
 	LPDIRECT3DTEXTURE9 textureptr;
 	D3DXIMAGE_INFO info;
-	if (D3DXCreateTextureFromFileExA(Device, path.c_str(), -2, -2, 0, 0, D3DFMT_A8B8G8R8, D3DPOOL_MANAGED, -1, -1, 0, &info, nullptr, &textureptr) == S_OK)
+	if (D3DXCreateTextureFromFileExA(Device, path.c_str(), -2, -2, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, -1, -1, 0, &info, nullptr, &textureptr) == S_OK)
 	{
 		Texture * text = new Texture(textureptr, info);
 		m_text[key] = text;

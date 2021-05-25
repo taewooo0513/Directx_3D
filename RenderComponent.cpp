@@ -40,5 +40,5 @@ void RenderComponent::Render3D()
 
 void RenderComponent::Render2D()
 {
-	RENDER->Render2D(text,obj->vector2,obj->size2,obj->rot);
+	RENDER->Render2D(text,obj->vector3,obj->size2,obj->rot);
 }

@@ -12,5 +12,6 @@ public:
 	void Release();
 	void ResetDevice();
 	void LostDevice();
+	
 };
 

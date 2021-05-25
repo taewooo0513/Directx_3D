@@ -14,6 +14,7 @@ public:
 class Texture
 {
 public:
+	LPD3D10EFFECT Effect;
 	LPDIRECT3DTEXTURE9 texturePtr;
 	D3DXIMAGE_INFO info;
 	Texture(LPDIRECT3DTEXTURE9 texturePtr, D3DXIMAGE_INFO info)

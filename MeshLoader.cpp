@@ -144,7 +144,6 @@ HRESULT CMeshLoader::Create( IDirect3DDevice9* pd3dDevice, const WCHAR* strFilen
     memcpy( pIndex, m_Indices.GetData(), m_Indices.GetSize() * sizeof( DWORD ) );
     pMesh->UnlockIndexBuffer();
     m_Indices.RemoveAll();
-
     // Copy the attribute data
     DWORD* pSubset;
     V_RETURN( pMesh->LockAttributeBuffer( 0, &pSubset ) );
