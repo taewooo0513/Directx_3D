@@ -23,6 +23,13 @@ LoadManager::~LoadManager()
 		SAFE_DELETE(iter.second);
 	}
 	m_text.clear();
+
+	for (auto iter : m_effect)
+	{
+		iter.second->Release();
+		SAFE_DELETE(iter.second);
+	}
+	m_effect.clear();
 }
 
 Mesh * LoadManager::AddMesh(IDirect3DDevice9 * device, string key, const WCHAR * path)
@@ -66,15 +73,13 @@ Texture * LoadManager::AddImage(string key, const string path)
 
 void LoadManager::AddShader(string key, const string path)
 {
-	Mesh * mesh = new Mesh;
 	ID3DXEffect * effect;
 	LPD3DXBUFFER buf;
-	if (D3DXCreateEffectFromFileExA(Device, key.c_str(), 0, 0, 0, D3DXFX_NOT_CLONEABLE, NULL, &effect, &buf) == S_OK)
+	if (D3DXCreateEffectFromFileExA(Device, path.c_str(), 0, 0, 0, D3DXFX_NOT_CLONEABLE, NULL, &effect, &buf) == S_OK)
 	{
 		m_effect[key] = effect;
 	}
-	else
-	{
+		else
 		MessageBoxA(DXUTGetHWND(), (LPSTR)buf->GetBufferPointer(), NULL, NULL);
-	}
+
 }

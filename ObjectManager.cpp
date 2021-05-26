@@ -77,7 +77,7 @@ void ObjectManager::Collision(Object * obj)
 				float Dis = sqrt((obj->vector3.x - iter->vector3.x)*(obj->vector3.x - iter->vector3.x) + (obj->vector3.y - iter->vector3.y)*(obj->vector3.y - iter->vector3.y));
 				if (Dis)
 				{
-
+					obj->CheckCollision(iter);
 				}
 			}
 		}

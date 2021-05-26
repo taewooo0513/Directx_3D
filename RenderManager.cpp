@@ -79,23 +79,36 @@ void RenderManager::Render3D(Mesh * mesh, Vec3 Pos, Vec3 Size, Vec3 Rot)
 void RenderManager::ShadowRender(Mesh * mesh, Vec3 Pos, Vec3 Size, Vec3 Rot)
 {
 	D3DXMATRIXA16 matP, matS, matR, matW;
-	D3DXMATRIXA16 matX, matY, matZ;
+	D3DXMATRIXA16 matX, matY, matZ,matProj,matV;
 
-	D3DXMatrixTranslation(&matP, Pos.x, Pos.y, 0);
+	D3DXMatrixTranslation(&matP, Pos.x, Pos.y, Pos.z);
 	D3DXMatrixScaling(&matS, Size.x, Size.y, Size.z);
 	D3DXMatrixRotationX(&matX, Rot.x);
 	D3DXMatrixRotationY(&matY, Rot.y);
 	D3DXMatrixRotationZ(&matZ, Rot.z);
+	Device->GetTransform(D3DTS_PROJECTION, &matProj);
+	Device->GetTransform(D3DTS_VIEW, &matV);
 
 	matR = matX * matY*matZ;
 	matW = matR * matP * matS;
 	Device->SetTransform(D3DTS_WORLD, &matW);
+	LOADER->m_effect["Shadow"]->SetValue((D3DXHANDLE)"LightDir",Vec3(1,0,1),sizeof(Vec3));
+	LOADER->m_effect["Shadow"]->SetValue((D3DXHANDLE)"LightColor",D3DXVECTOR4(1.f,1.f,1.f,1.f),sizeof(D3DXVECTOR4));
+	LOADER->m_effect["Shadow"]->SetMatrix((D3DXHANDLE)"matW", &(matW));
+	LOADER->m_effect["Shadow"]->SetMatrix((D3DXHANDLE)"ViewProjMatrix", &(matV*matProj));
+	LOADER->m_effect["Shadow"]->Begin(0,0);
 	for (int i = 0; i < mesh->materials.size(); i++)
 	{
-		LOADER->m_effect[""]
+		LOADER->m_effect["Shadow"]->BeginPass(i);
+		
+		LOADER->m_effect["Shadow"]->SetTexture((D3DXHANDLE)"MeshText",mesh->materials[i]->pTexture);
+		LOADER->m_effect["Shadow"]->CommitChanges();
+
 		Device->SetTexture(0, mesh->materials[i]->pTexture);
 		mesh->mesh->DrawSubset(i);
+		LOADER->m_effect["Shadow"]->EndPass();
 	}
+	LOADER->m_effect["Shadow"]->End();
 }
 
 void RenderManager::Render2D(Texture * text, Vec3 Pos, Vec2 Size, float rot)
