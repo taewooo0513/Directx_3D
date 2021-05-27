@@ -92,7 +92,10 @@ void RenderManager::ShadowRender(Mesh * mesh, Vec3 Pos, Vec3 Size, Vec3 Rot)
 	matR = matX * matY*matZ;
 	matW = matR * matP * matS;
 	Device->SetTransform(D3DTS_WORLD, &matW);
-	LOADER->m_effect["Shadow"]->SetValue((D3DXHANDLE)"LightDir",Vec3(1,0,1),sizeof(Vec3));
+	Vec3 LightPos = Vec3(0, 0, 0);
+	Vec3 Normal;
+	D3DXVec3Normalize(&Normal,&Vec3(LightPos - Pos));
+	LOADER->m_effect["Shadow"]->SetValue((D3DXHANDLE)"LightDir",Normal,sizeof(Vec3));
 	LOADER->m_effect["Shadow"]->SetValue((D3DXHANDLE)"LightColor",D3DXVECTOR4(1.f,1.f,1.f,1.f),sizeof(D3DXVECTOR4));
 	LOADER->m_effect["Shadow"]->SetMatrix((D3DXHANDLE)"matW", &(matW));
 	LOADER->m_effect["Shadow"]->SetMatrix((D3DXHANDLE)"ViewProjMatrix", &(matV*matProj));
